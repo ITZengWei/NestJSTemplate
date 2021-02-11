@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import {CategoryModel} from "libs/db/models/category.model";
 import { InjectModel } from 'nestjs-typegoose'
 import { ReturnModelType } from '@typegoose/typegoose'
+import {transformEmptyObj} from "@app/common/Utils/tansform-empty.tool";
 
 
 @Injectable()
@@ -10,9 +11,9 @@ export class CategoriesService {
     @InjectModel(CategoryModel) private readonly model: ReturnModelType<typeof CategoryModel>
   ) {}
 
-  async findAll(findCategoryDto) {
-    console.log(findCategoryDto)
-    let { pageNum, PageSize } = findCategoryDto
+  async findAll() {
+    // console.log(findCategoryDto) findCategoryDto
+    // let { pageNum, PageSize } = findCategoryDto
     // TODO 怎么查找递归的
     let originData = await this.model.find({}, {_id: '1', name: '1'})
     // console.log(originData)
@@ -26,29 +27,31 @@ export class CategoriesService {
     }
   }
 
-  async create(newCategory) {
-    console.log(newCategory)
-    let result = await this.model.create(newCategory)
-    return {
-      code: 200,
-      data: result,
-      msg: '添加成功'
+  async create(payload) {
+    try {
+      let { name, parentCategory, grandparentCategory } = payload
+      let createData = transformEmptyObj({ name, parentCategory, grandparentCategory })
+      let result = await this.model.create(createData)
+      return {
+        code: 200,
+        data: result,
+        msg: '添加成功'
+      }
+    } catch (err) {
+      return { code: -1, msg: '错误', err: err }
     }
   }
 
 
-  async edit(editCategory) {
-    // console.log(editCategory)
-    let { id, ...data } = editCategory
+  async edit(payload) {
+    // console.log(payload)
+    let { id, name } = payload
     try {
-
-      await this.model.findByIdAndUpdate(id, data)
+      await this.model.findByIdAndUpdate(id, { name })
       return {
         code: 200,
         msg: '修改成功',
-        data: data
       }
-
     } catch (e) {
       return {
         code: -1,

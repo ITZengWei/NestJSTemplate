@@ -32,12 +32,13 @@ export class UserModel {
   @ApiProperty({ description: '密码', example: '110349' })
   psw: string
 
+
   @prop()
   @ApiProperty({ description: '审核状态 -1 审核不通过 0 审核中 1 审核通过', example: '-1' })
   audit: string
 
   @prop()
-  @ApiProperty({ description: '用户类型 0 普通 1 商家 2 管理员', example: '0' })
+  @ApiProperty({ description: '用户类型 0 普通 1 初级管理员 2 高级管理员', example: '0' })
   type: string
 
 
@@ -49,5 +50,7 @@ export class UserModel {
   @ApiProperty({ description: '昵称', example: '陌琼' })
   nickname: string
 
-
+  @prop()
+  @ApiProperty({ description: '头像', example: '头像' })
+  avatar: string
 }

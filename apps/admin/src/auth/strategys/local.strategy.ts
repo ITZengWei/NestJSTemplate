@@ -25,7 +25,7 @@ export class LocalStrategy extends PassportStrategy(Strategy, 'admin_local') {
       $or: [
         {account: account}, {tel:account}
       ]
-    }).select('+psw')
+    }).select('+psw').lean()
     if (!user) {
       throw new BadRequestException('用户名不存在')
     }

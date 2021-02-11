@@ -2,12 +2,21 @@
   "collection": "@nestjs/schematics",
   "sourceRoot": "apps/shop-back-end/src",
   "monorepo": true,
-  "root": "apps/shop-back-end",
+  "root": "apps/blog",
   "compilerOptions": {
     "webpack": true,
-    "tsConfigPath": "apps/shop-back-end/tsconfig.app.json"
+    "tsConfigPath": "apps/blog/tsconfig.app.json"
   },
   "projects": {
+    "blog": {
+      "type": "application",
+      "root": "apps/blog",
+      "entryFile": "main",
+      "sourceRoot": "apps/blog/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/blog/tsconfig.app.json"
+      }
+    },
     "shop-back-end": {
       "type": "application",
       "root": "apps/shop-back-end",

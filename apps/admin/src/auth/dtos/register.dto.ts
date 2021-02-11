@@ -15,7 +15,7 @@ export class RegisterDto {
   account: string
 
   @IsNotEmpty({ message: '登录手机号不能为空', context: { errorCode: -1 } })
-  @ApiProperty({ title: '手机号', example: 'username' })
+  @ApiProperty({ title: '手机号', example: '13407943933' })
   tel: string
 
   @IsNotEmpty({ message: '密码不能为空', context: { errorCode: -1 } })

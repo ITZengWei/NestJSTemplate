@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Get, Delete, Param } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger'
 import { Crud } from 'nestjs-mongoose-crud'
 import { InjectModel } from 'nestjs-typegoose'
@@ -14,9 +14,7 @@ import {CurrentUser} from "@app/common/ParamDecorators/user.decorator";
   model: UserModel,
   routes: {
     create:  false,
-    delete: /*false*/ {
-      decorators: [ ApiOperation({ summary: '删除用户', description: 'id 用户ID' }) ]
-    },
+    delete: false,
     update: false/*{
       decorators: [ ApiOperation({ summary: '修改用户', description: 'id 用户ID' }) ]
     }*/,
@@ -34,20 +32,22 @@ export class UsersController {
   constructor(
     @InjectModel(UserModel) private readonly model : ReturnModelType<typeof UserModel>,
     private readonly UsersService: UsersService
-  ) {}
+  ) { }
 
-
-  @Post('applyShop')
+  @Get('findAll')
   @ApiBearerAuth()
   @UseGuards(AuthGuard('admin_jwt'))
-  @ApiOperation({ summary: '申请成为商家' })
-  applyShop(@Body() applyShopDto: ApplyShopDto, @CurrentUser('') userInfo: UserDocumentType): Promise<any> {
-    return this.UsersService.applyShop(applyShopDto, userInfo)
+  @ApiOperation({ summary: '管理员获取用户列表' })
+  async findAllUser(@CurrentUser('admin') user: UserDocumentType) {
+    return await this.UsersService.findAllUser()
   }
 
-  // @Post('applyAdmin')
-  // @ApiOperation({ summary: '申请成为管理员' })
-  // applyAdmin() {
-  //
-  // }
+  @Delete(':id')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('admin_jwt'))
+  @ApiOperation({ summary: '删除用户' })
+  async remove(@Param('id') id: string, @CurrentUser('admin') user: UserDocumentType) {
+    return await this.UsersService.remove(id)
+  }
+
 }

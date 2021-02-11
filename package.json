@@ -33,7 +33,7 @@
     "class-transformer": "^0.2.3",
     "class-validator": "^0.11.1",
     "mongoose": "^5.9.7",
-    "multer-aliyun-oss": "^1.0.4",
+    "multer-aliyun-oss": "^1.1.0",
     "nestjs-mongoose-crud": "^1.3.0",
     "nestjs-typegoose": "^7.1.14",
     "passport": "^0.4.1",

@@ -1,20 +1,34 @@
 import { Module, Global } from '@nestjs/common';
 import { DbService } from './db.service';
 import  { TypegooseModule } from 'nestjs-typegoose'
-import {GoodsModel} from "libs/db/models/goods.model";
-import {SpecModel} from "libs/db/models/spec.model";
-import {CategoryModel} from "libs/db/models/category.model";
+
+import {CategoryModel} from "libs/db/models/category.model"
+
 import {UserModel} from "libs/db/models/user.model";
-import {BoosModel} from "libs/db/models/boos.model";
+
+import {RecordModel} from "libs/db/models/record.model";
+import {ImageModel} from "libs/db/models/image.model";
+import {CommentModel} from "libs/db/models/comment.model";
+import {TagModel} from "libs/db/models/tag.model";
+import {AlbumModel} from "libs/db/models/album.model";
+import {ArticleModel} from "libs/db/models/article.model";
+import {GameModel} from "libs/db/models/game.model";
+import { MenuModel } from "libs/db/models/menu.model";
+
 
 
 // 引用模型
 const models = TypegooseModule.forFeature([
-  GoodsModel,
-  SpecModel,
   CategoryModel,
   UserModel,
-  BoosModel
+  RecordModel,
+  ImageModel,
+  CommentModel,
+  TagModel,
+  AlbumModel,
+  ArticleModel,
+  GameModel,
+  MenuModel
 ])
 
 @Global()
@@ -22,15 +36,16 @@ const models = TypegooseModule.forFeature([
   imports: [
     TypegooseModule.forRootAsync({
       useFactory() {
-        // console.log(process.env, 'hello')
+        let { DB: DBHost = 'mongodb://localhost:27017/nest-blog-project' } = process.env
         return {
           // 地址
-          uri: process.env.DB,
+          uri: DBHost,
           // 参数
           useCreateIndex: true,
-          useFindAndModify: true,
+          useFindAndModify: false,
           useUnifiedTopology: true,
           useNewUrlParser: true
+
         }
       }
     }),

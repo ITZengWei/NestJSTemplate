@@ -16,18 +16,14 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'admin_jwt') {
   ) {
     super(
       {
-        secretOrKey: process.env.SECRET,
+        secretOrKey: process.env.SECRET || 'xiaolibingzengweiyongyuanaini',
         jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken()
       } as StrategyOptions
     )
   }
 
-  async validate(id) {
-    console.log(id)
-    if (!id) {
-      console.log('hello')
-    }
-
+  async validate(result) {
+    let { id } = result
     const user = await this.userModel.findById(id).lean()
 
 

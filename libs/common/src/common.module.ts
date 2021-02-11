@@ -6,7 +6,7 @@ import {BaseValidationPipe} from './pipes/base-validate.pipe'
 import { JwtModule } from '@nestjs/jwt'
 
 
-
+console.log('common')
 @Global()
 @Module({
   imports: [
@@ -18,8 +18,10 @@ import { JwtModule } from '@nestjs/jwt'
     // 注册JWT 包
     JwtModule.registerAsync({
       useFactory() {
+        let { SECRET: secret = 'xiaolibingzengweiyongyuanaini' } = process.env
+
         return {
-          secret: process.env.SECRET
+          secret
         }
       }
     }),

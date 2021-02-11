@@ -20,15 +20,17 @@ export class CategoriesController {
 
   @Post('findAll')
   @ApiOperation({ summary: '获取分类' })
-  async findAll(@Body() findCategoryDto: FindCategoryDto): Promise<any> {
-    return await this.CategoriesService.findAll(findCategoryDto);
+  async findAll(): Promise<any> {
+    // findCategoryDto: FindCategoryDto findCategoryDto
+
+    return await this.CategoriesService.findAll();
   }
 
   @Post()
   @ApiBearerAuth()
   @UseGuards(AuthGuard('admin_jwt'))
   @ApiOperation({ summary: '添加分类' })
-  async create(@Body() createCategoryDto: CreateCategoryDto, @CurrentUser('admin') userInfo: UserDocumentType): Promise<any> {
+  async create(@Body() createCategoryDto: CreateCategoryDto, @CurrentUser('admin') userInfo: UserDocumentType): Promise<object> {
     console.log(createCategoryDto, '传过来的数据')
     return await this.CategoriesService.create(createCategoryDto)
   }

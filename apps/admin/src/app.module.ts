@@ -2,51 +2,36 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import {CommonModule} from "@app/common";
-import { GoodsController } from './goods/goods.controller';
-import { GoodsService } from './goods/goods.service';
-import { SpecsController } from './specs/specs.controller';
-import { SpecsService } from './specs/specs.service';
-import { CategoriesController } from './categories/categories.controller';
-import { CategoriesService } from './categories/categories.service';
-import { UsersController } from './users/users.controller';
-import { AuthController } from './auth/auth.controller';
-import { AuthModule } from './auth/auth.module';
-import {AuthService} from "./auth/auth.service";
-import { UsersService } from './users/users.service';
-import { FilesController } from './files/files.controller';
-import { FilesService } from './files/files.service';
 import { MulterModule } from '@nestjs/platform-express'; // 文件操作
-
-const MAO = require('multer-aliyun-oss')
+import { UsersModule } from './users/users.module';
+import { FilesModule } from './files/files.module';
+import { CategoriesModule } from './categories/categories.module';
+import {AuthModule} from "./auth/auth.module";
+import { RecordsModule } from './records/records.module';
+import { AlbumsModule } from './albums/albums.module';
+import { ArticlesModule } from './articles/articles.module';
+import { GamesModule } from './games/games.module';
+import { TagsModule } from './tags/tags.module';
+import { MenusModule } from './menus/menus.module';
 
 
 @Module({
   imports: [
     CommonModule,
+    UsersModule,
+    FilesModule,
+    CategoriesModule,
     AuthModule,
-    MulterModule.registerAsync({
-      useFactory() {
-        const {
-          OSS_REGION: region,
-          OSS_ACCESS_KEY_ID: accessKeyId,
-          OSS_ACCESS_KEY_SECRET: accessKeySecret,
-          OSS_BUCKET : bucket
-        } = process.env
-
-        return {
-          storage: MAO({
-            config: {
-              region,
-              accessKeyId,
-              accessKeySecret,
-              bucket
-            }
-          })
-        }
-      }
-    })
+    RecordsModule,
+    AlbumsModule,
+    ArticlesModule,
+    GamesModule,
+    TagsModule,
+    MenusModule,
   ],
-  controllers: [AppController, GoodsController, SpecsController, CategoriesController, UsersController, FilesController, /*AuthController*/],
-  providers: [AppService, GoodsService, SpecsService, CategoriesService, UsersService, FilesService, /*AuthService*/],
+  controllers: [
+
+  ],
+  providers: [AppService],
 })
 export class AppModule {}
